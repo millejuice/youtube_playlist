@@ -26,39 +26,44 @@ String? url;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.red,
         centerTitle: true,
       title: const Text('Youtube'),
       ),
-      body: Center(
-        child: GestureDetector(
-          onTap: ()=>FocusScope.of(context).unfocus(),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(padding: const EdgeInsets.all(20),
-                child: TextField(
-                  controller: _editCon,
-                  decoration: const InputDecoration(
-                    hintText: 'url을 입력해주세요',
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: GestureDetector(
+            onTap: ()=>FocusScope.of(context).unfocus(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(padding: const EdgeInsets.all(20),
+                  child: TextField(
+                    controller: _editCon,
+                    decoration: const InputDecoration(
+                      hintText: 'url을 입력해주세요',
+                    ),
+                    keyboardType: TextInputType.text,
                   ),
-                  keyboardType: TextInputType.text,
-                ),
-                ),
-                const Padding(padding: EdgeInsets.all(10)),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                     url=getIdFromUrl(_editCon.text);
-                    });
-                  },
-                  child: const Text('Enter'),
-                ),
-                Text('$url'),
-                const Padding(padding: EdgeInsets.all(10)),
-                ElevatedButton(
-                  onPressed: () { Navigator.pushNamed(context, '/home',arguments: url,);},
-                 child: const Text('Search')),
-              ],
+                  ),
+                  const Padding(padding: EdgeInsets.all(10)),
+                  ElevatedButton(
+                    
+                    onPressed: () {
+                      setState(() {
+                       url=getIdFromUrl(_editCon.text);
+                      });
+                    },
+                    child: const Text('Enter'),
+                  ),
+                  Text('$url'),
+                  const Padding(padding: EdgeInsets.all(10)),
+                  ElevatedButton(
+                    onPressed: () { Navigator.pushNamed(context, '/home',arguments: url,);},
+                   child: const Text('Search')),
+                ],
+              ),
             ),
           ),
         ),

@@ -11,29 +11,37 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   static late String youtubeId;
-  static String instanceId = 'mvQHqxmdYV0';
+  late YoutubePlayerController _con;
+
 
    @override
   void initState() {
     super.initState();
     youtubeId = widget.id;
-  }
-
-  final YoutubePlayerController _con = YoutubePlayerController(initialVideoId: youtubeId,
-  flags: const YoutubePlayerFlags(
+    _con = YoutubePlayerController(initialVideoId: youtubeId,
+    flags: const YoutubePlayerFlags(
     autoPlay: true,
-    mute: true,
+    mute: false,
   )
   );
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.red,
         centerTitle: true,
         title: const Text('Youtube'), 
       ),
-      body: Center(
-        child: YoutubePlayer(controller: _con),
+      body: 
+      
+      Container(
+        color: Colors.black,
+        child: Center(
+          child: YoutubePlayer(controller: _con),
+        ),
       )
       ,
     );
