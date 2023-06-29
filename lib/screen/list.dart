@@ -33,6 +33,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios)),
@@ -47,8 +48,12 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         Navigator.pushNamed(context, '/player', arguments: updatedParsed);
             },
 
-            child: ListTile(
-              title: Text(parsed[index]),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: ListTile(
+               // leading: Image.network(),
+                title: Text(parsed[index], style: const TextStyle(color: Colors.white),),
+              ),
             ),
           );
         },

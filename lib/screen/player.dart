@@ -64,7 +64,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
             SizedBox(height: height*0.15,),
             const Divider(color: Colors.white,),
             const SizedBox(height: 10,),
-            const Text('다음곡', style: TextStyle(color: Colors.white),),
+            const Text('다음곡', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
           ],
         ),
       ),
