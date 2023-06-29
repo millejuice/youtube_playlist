@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/screen/home.dart';
+import 'package:youtube/screen/list.dart';
+import 'package:youtube/screen/player.dart';
 import 'package:youtube/screen/print.dart';
 import 'package:youtube/screen/write.dart';
 void main() { 
@@ -14,11 +16,13 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       color: Colors.red,
       title: 'YouTube API',
-      initialRoute: '/print', 
+      initialRoute: '/playlist', 
       routes: {
         '/home': (context) => HomeScreen(id: ModalRoute.of(context)!.settings.arguments as String),
         '/write':(context) => const WriteScreen(),
         '/print' :(context) => const PrintUrl(),
+        '/playlist' :(context) => const PlaylistScreen(),
+        '/player': (context) => PlayerScreen(videoUrl: ModalRoute.of(context)!.settings.arguments as List<String>),
       },
     );
   }
