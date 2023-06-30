@@ -29,13 +29,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   void videoListener() {
     if (con.value.playerState == PlayerState.ended) {
-      // 다음 동영상 재생
-      if (currentIndex < widget.videoUrl.length - 1) {
         setState(() {
-          currentIndex++;
+          currentIndex = (currentIndex + 1) % widget.videoUrl.length;
           con.load(widget.videoUrl[currentIndex]);
+          currentIndex++;
         });
-      }
     }
   }
 
