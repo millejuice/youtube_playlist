@@ -60,6 +60,9 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       body: ListView.builder(
         itemCount: videoUrl.length,
         itemBuilder: (context, index){
+          if (index >= thumb.length || index >= title.length) {
+          return const CircularProgressIndicator(); // 빈 컨테이너 반환
+        }
           return GestureDetector(
             onTap: () {
         List<String> updatedParsed = parsed.sublist(index) + parsed.sublist(0, index);
@@ -69,9 +72,13 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: ListTile(
-              leading: Image.network(thumb[index]),
-                title: Text(title[index], style: const TextStyle(color: Colors.white),),
-              ),
+  leading: Image.network(thumb[index]),
+  title: Text(
+    title[index],
+    style: const TextStyle(color: Colors.white),
+  ),
+),
+
             ),
           );
         },
