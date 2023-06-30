@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_parser/youtube_parser.dart';
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as parser;
 
 class PlaylistScreen extends StatefulWidget {
   const PlaylistScreen({super.key});
@@ -16,6 +18,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     'https://www.youtube.com/watch?v=pAcfgzpN-TU',
   ];
   List<String> parsed = [];
+  List<String> title = [];
+  List<String> thumb = [];
 
 @override
   void initState() {
@@ -27,9 +31,23 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     for (String url in videoUrl) {
       final String? videoId = getIdFromUrl(url);
       parsed.add(videoId!);
+      final videoTitle = await getVideoTitle(url);
+      title.add(videoTitle);
+      thumb.add('https://img.youtube.com/vi/$videoId/0.jpg');
     }
     setState(() {});
   }
+
+  Future<String> getVideoTitle(String url) async {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final document = parser.parse(response.body);
+      final titleElement = document.querySelector('title');
+      return titleElement?.text ?? 'Unknown Title';
+    }
+    return 'Unknown Title';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,8 +69,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: ListTile(
-               // leading: Image.network(),
-                title: Text(parsed[index], style: const TextStyle(color: Colors.white),),
+              leading: Image.network(thumb[index]),
+                title: Text(title[index], style: const TextStyle(color: Colors.white),),
               ),
             ),
           );
