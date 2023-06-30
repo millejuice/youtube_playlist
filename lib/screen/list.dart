@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:youtube_parser/youtube_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
@@ -67,6 +68,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             onTap: () {
         List<String> updatedParsed = parsed.sublist(index) + parsed.sublist(0, index);
         Navigator.pushNamed(context, '/player', arguments: updatedParsed);
+        FlutterBackgroundService().invoke('setAsBackground');
             },
 
             child: Padding(
