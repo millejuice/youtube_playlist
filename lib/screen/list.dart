@@ -14,7 +14,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
 
   final List<String> videoUrl = [
     'https://www.youtube.com/watch?v=amOSaNX7KJg',
-    'https://www.youtube.com/watch?v=QxM4fvBLhDk',
+    'https://www.youtube.com/watch?v=7XdadYIxdEE',
     'https://www.youtube.com/watch?v=pAcfgzpN-TU',
   ];
   List<String> parsed = [];

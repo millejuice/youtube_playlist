@@ -4,7 +4,7 @@ import 'package:youtube/screen/list.dart';
 import 'package:youtube/screen/player.dart';
 import 'package:youtube/screen/print.dart';
 import 'package:youtube/screen/write.dart';
-void main() { 
+Future<void> main() async { 
   runApp(const MyApp());
 }
 
