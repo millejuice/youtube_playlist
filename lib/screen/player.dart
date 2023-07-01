@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayerScreen extends StatefulWidget {
@@ -25,6 +28,21 @@ class _PlayerScreenState extends State<PlayerScreen> {
     mute: false,
   )
   )..addListener(videoListener);
+    startForegroundService();
+  }
+
+   @override
+  void dispose() {
+    con.dispose();
+    super.dispose();
+  }
+
+  Future<void> startForegroundService() async{
+    if (Platform.isAndroid) {
+      final service = FlutterBackgroundServiceAndroid();
+      service.on('SetAsForeground').listen((event) {});
+
+    }
   }
 
   void videoListener() {

@@ -62,13 +62,24 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         itemCount: videoUrl.length,
         itemBuilder: (context, index){
           if (index >= thumb.length || index >= title.length) {
-          return const CircularProgressIndicator(); // 빈 컨테이너 반환
+          return const CircularProgressIndicator(); 
         }
           return GestureDetector(
-            onTap: () {
+            onTap: () async{
         List<String> updatedParsed = parsed.sublist(index) + parsed.sublist(0, index);
         Navigator.pushNamed(context, '/player', arguments: updatedParsed);
-        FlutterBackgroundService().invoke('setAsBackground');
+        final service =FlutterBackgroundService();
+        service.invoke('SetAsForeground');
+        bool isRunning = await service.isRunning();
+        if(!isRunning){
+          const Text('Not Running Background');
+        }
+        else{
+          const Text('Background Running');
+        }
+        setState(() {
+          
+        });
             },
 
             child: Padding(
