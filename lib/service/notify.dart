@@ -45,10 +45,12 @@ void onStart(ServiceInstance service) async{
 
     Timer.periodic(const Duration(milliseconds: 1), (timer) async{ 
       if(await service.isForegroundService()){
-        service.setForegroundNotificationInfo(title: 'Dlive', content: 'Drive with Us');
+        service.setForegroundNotificationInfo(title: 'Dlive', content: "Updated at ${DateTime.now()}");
       }
 
-      service.invoke('update');
+      service.invoke('update',{
+         "current_date": DateTime.now().toIso8601String(),
+      });
     });
   }
 

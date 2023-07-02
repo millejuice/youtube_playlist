@@ -12,8 +12,9 @@ class PlayerScreen extends StatefulWidget {
   State<PlayerScreen> createState() => _PlayerScreenState();
 }
 
-class _PlayerScreenState extends State<PlayerScreen> {
+class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver{
   late YoutubePlayerController con;
+  bool isAppInBackground = false;
   int currentIndex = 0;
   static late String youtubeId;
   String? url;
@@ -29,19 +30,41 @@ class _PlayerScreenState extends State<PlayerScreen> {
   )
   )..addListener(videoListener);
     startForegroundService();
+     WidgetsBinding.instance.addObserver(this);
+
   }
 
    @override
   void dispose() {
     con.dispose();
     super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void didChangeAppLifeCycleState(AppLifecycleState state){
+    if(state == AppLifecycleState.paused){
+      isAppInBackground == true;
+      startForegroundService();
+    }
+    else if(state == AppLifecycleState.resumed){
+      isAppInBackground == false;
+      final service = FlutterBackgroundServiceAndroid();
+      service.on('stopService').listen((event) { });
+    }
+    // else if(state == AppLifecycleState.detached){
+    //   final service = FlutterBackgroundServiceAndroid();
+    //   service.on('stopService').listen((event) { });
+    // }
   }
 
   Future<void> startForegroundService() async{
     if (Platform.isAndroid) {
       final service = FlutterBackgroundServiceAndroid();
       service.on('SetAsForeground').listen((event) {});
-
+        if(isAppInBackground){
+          con.play();
+        }
     }
   }
 
