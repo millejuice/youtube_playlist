@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_parser/youtube_parser.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     'https://www.youtube.com/watch?v=amOSaNX7KJg',
     'https://www.youtube.com/watch?v=7XdadYIxdEE',
     'https://www.youtube.com/watch?v=pAcfgzpN-TU',
+    'https://www.youtube.com/watch?v=manv6AFUbM8'
   ];
   List<String> parsed = [];
   List<String> title = [];
@@ -67,24 +69,15 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             onTap: () async{
         List<String> updatedParsed = parsed.sublist(index) + parsed.sublist(0, index);
         Navigator.pushNamed(context, '/player', arguments: updatedParsed);
-        // final service =FlutterBackgroundService();
-        // service.invoke('SetAsForeground');
-        // bool isRunning = await service.isRunning();
-        // if(!isRunning){
-        //   const Text('Not Running Background');
-        // }
-        // else{
-        //   const Text('Background Running');
-        // }
-        // setState(() {
-          
-        // });
             },
-
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: ListTile(
-  leading: Image.network(thumb[index]),
+  leading: CachedNetworkImage(
+    imageUrl: thumb[index],
+    placeholder: (context, url) => const CircularProgressIndicator(),
+    errorWidget: (context, url, error) => const Icon(Icons.error),
+  ),
   title: Text(
     title[index],
     style: const TextStyle(color: Colors.white),

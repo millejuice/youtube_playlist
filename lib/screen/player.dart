@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -17,7 +16,6 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
   bool isAppInBackground = false;
   int currentIndex = 0;
   static late String youtubeId;
-  String? url;
 
    @override
   void initState() {
@@ -29,11 +27,8 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
     mute: false,
   )
   )..addListener(videoListener);
-    startForegroundService();
      WidgetsBinding.instance.addObserver(this);
-
   }
-
    @override
   void dispose() {
     con.dispose();
@@ -44,18 +39,14 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
 
   void didChangeAppLifeCycleState(AppLifecycleState state){
     if(state == AppLifecycleState.paused){
-      isAppInBackground == true;
+      isAppInBackground = true;
       startForegroundService();
     }
     else if(state == AppLifecycleState.resumed){
-      isAppInBackground == false;
+      isAppInBackground = false;
       final service = FlutterBackgroundServiceAndroid();
       service.on('stopService').listen((event) { });
     }
-    // else if(state == AppLifecycleState.detached){
-    //   final service = FlutterBackgroundServiceAndroid();
-    //   service.on('stopService').listen((event) { });
-    // }
   }
 
   Future<void> startForegroundService() async{
@@ -64,24 +55,23 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
       service.on('SetAsForeground').listen((event) {});
         if(isAppInBackground){
           con.play();
+          service.on('update').listen((event) { });
         }
     }
   }
 
   void videoListener() {
     if (con.value.playerState == PlayerState.ended) {
-        setState(() {
           currentIndex = (currentIndex + 1) % widget.videoUrl.length;
           con.load(widget.videoUrl[currentIndex]);
           currentIndex++;
-        });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width;
+    //double width = screenSize.width;
     double height = screenSize.height;
 
     return Scaffold(

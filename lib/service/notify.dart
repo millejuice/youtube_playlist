@@ -45,7 +45,7 @@ void onStart(ServiceInstance service) async{
 
     Timer.periodic(const Duration(milliseconds: 1), (timer) async{ 
       if(await service.isForegroundService()){
-        service.setForegroundNotificationInfo(title: 'Dlive', content: "Updated at ${DateTime.now()}");
+        service.setForegroundNotificationInfo(title: 'Dlive', content: "갱신 ${DateTime.now()}");
       }
 
       service.invoke('update',{
@@ -53,6 +53,4 @@ void onStart(ServiceInstance service) async{
       });
     });
   }
-
-
 }
