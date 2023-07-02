@@ -1,4 +1,5 @@
 import 'dart:io';
+//import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -29,18 +30,19 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
   )..addListener(videoListener);
      WidgetsBinding.instance.addObserver(this);
   }
-   @override
-  void dispose() {
-    con.dispose();
-    super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
+  //  @override
+  // void dispose() {
+  //   con.dispose();
+  //   super.dispose();
+  //   WidgetsBinding.instance.removeObserver(this);
+  //   super.dispose();
+  // }
 
   void didChangeAppLifeCycleState(AppLifecycleState state){
     if(state == AppLifecycleState.paused){
       isAppInBackground = true;
       startForegroundService();
+     // MoveToBackground.moveTaskToBack();
     }
     else if(state == AppLifecycleState.resumed){
       isAppInBackground = false;
@@ -49,13 +51,12 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
     }
   }
 
-  Future<void> startForegroundService() async{
+  Future<void> startForegroundService() async {
     if (Platform.isAndroid) {
       final service = FlutterBackgroundServiceAndroid();
       service.on('SetAsForeground').listen((event) {});
         if(isAppInBackground){
           con.play();
-          service.on('update').listen((event) { });
         }
     }
   }
@@ -77,7 +78,7 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        leading: IconButton(onPressed: (){
+        leading: IconButton(onPressed: () {
           Navigator.pop(context);
         }, icon: const Icon(Icons.arrow_back_ios)),
         title: const Text('플레이리스트', style: TextStyle(color: Colors.white, ),),

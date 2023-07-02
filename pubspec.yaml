@@ -50,6 +50,10 @@ dependencies:
   http: ^0.13.6
   html: ^0.15.4
   cached_network_image: ^3.2.3
+  just_audio_background: ^0.0.1-beta.10
+  youtube_explode_dart: ^1.12.4
+  rxdart: ^0.27.7
+  move_to_background: ^1.0.2
 
 dev_dependencies:
   flutter_test:

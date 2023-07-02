@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube_parser/youtube_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
@@ -22,11 +23,19 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   List<String> parsed = [];
   List<String> title = [];
   List<String> thumb = [];
+  List<String> audioUrl = [];
 
 @override
   void initState() {
     super.initState();
     parseVideoUrls();
+  }
+
+ 
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Future<void> parseVideoUrls() async {
@@ -36,6 +45,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       final videoTitle = await getVideoTitle(url);
       title.add(videoTitle);
       thumb.add('https://img.youtube.com/vi/$videoId/0.jpg');
+      var yt = YoutubeExplode();
+      var manifest=yt.videos.streamsClient.getManifest(videoId);
+      var audioStreamInfo = manifest.toString();
+      audioUrl.add(audioStreamInfo);
     }
     setState(() {});
   }
@@ -49,6 +62,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     }
     return 'Unknown Title';
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
